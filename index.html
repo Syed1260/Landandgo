@@ -1,0 +1,915 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Land & Go | Airport pickup for international students</title>
+    <meta
+      name="description"
+      content="Pre-booked, fixed-price airport transfers for international students. Someone meets you at arrivals and takes you to your door."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --navy: #0b2a55;
+        --green: #1f8f4e;
+        --green-dark: #17703d;
+        --mist: #eef5f0;
+        --ink: #1b2433;
+        --muted: #5b6678;
+        --line: #d9e2dc;
+        --white: #fff;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family:
+          Figtree,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        color: var(--ink);
+        background: var(--white);
+        line-height: 1.6;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      a {
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 3px solid var(--green);
+        outline-offset: 3px;
+      }
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      section {
+        padding: 72px 0;
+      }
+      h1,
+      h2,
+      h3 {
+        color: var(--navy);
+        line-height: 1.15;
+        font-weight: 800;
+      }
+      h1 {
+        font-size: clamp(2.2rem, 5vw, 3.6rem);
+        letter-spacing: -0.02em;
+      }
+      h2 {
+        font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+        letter-spacing: -0.01em;
+        margin-bottom: 12px;
+      }
+      h3 {
+        font-size: 1.2rem;
+      }
+      .lead {
+        font-size: 1.15rem;
+        color: var(--muted);
+        max-width: 52ch;
+      }
+      .btn {
+        display: inline-block;
+        border: 0;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 700;
+        padding: 14px 26px;
+        border-radius: 999px;
+        text-decoration: none;
+        background: var(--green);
+        color: var(--white);
+        transition: background 0.2s;
+      }
+      .btn:hover {
+        background: var(--green-dark);
+      }
+      .btn.ghost {
+        background: transparent;
+        color: var(--navy);
+        border: 2px solid var(--navy);
+      }
+      .btn.ghost:hover {
+        background: var(--navy);
+        color: var(--white);
+      }
+
+      /* header */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(6px);
+        border-bottom: 1px solid var(--line);
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 72px;
+      }
+      .nav img {
+        height: 52px;
+        width: auto;
+      }
+      .nav ul {
+        list-style: none;
+        display: flex;
+        gap: 26px;
+        padding: 0;
+      }
+      .nav a {
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .nav a:hover {
+        color: var(--green);
+      }
+      @media (max-width: 760px) {
+        .nav ul {
+          display: none;
+        }
+      }
+
+      /* hero */
+      .hero {
+        padding: 56px 0 72px;
+        background: linear-gradient(180deg, var(--white), var(--mist));
+      }
+      .hero .wrap {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 48px;
+        align-items: start;
+      }
+      .hero p.lead {
+        margin: 20px 0 28px;
+      }
+      .trust {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 22px;
+        margin-top: 28px;
+        font-weight: 500;
+        color: var(--navy);
+      }
+      .trust span::before {
+        content: "✓ ";
+        color: var(--green);
+        font-weight: 800;
+      }
+      @media (max-width: 860px) {
+        .hero .wrap {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* form card */
+      .card {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 28px;
+        box-shadow: 0 18px 50px rgba(11, 42, 85, 0.14);
+        border: 1px solid var(--line);
+      }
+      .tabs {
+        display: flex;
+        gap: 6px;
+        background: var(--mist);
+        padding: 5px;
+        border-radius: 999px;
+        margin-bottom: 22px;
+      }
+      .tabs button {
+        flex: 1;
+        border: 0;
+        background: transparent;
+        font: inherit;
+        font-weight: 700;
+        padding: 10px;
+        border-radius: 999px;
+        cursor: pointer;
+        color: var(--muted);
+      }
+      .tabs button[aria-selected="true"] {
+        background: var(--navy);
+        color: var(--white);
+      }
+      form[hidden] {
+        display: none;
+      }
+      .field {
+        margin-bottom: 14px;
+      }
+      label {
+        display: block;
+        font-weight: 700;
+        font-size: 0.92rem;
+        margin-bottom: 5px;
+        color: var(--navy);
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        font: inherit;
+        padding: 12px 14px;
+        border: 1.5px solid var(--line);
+        border-radius: 12px;
+        background: var(--white);
+        color: var(--ink);
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: var(--green);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(31, 143, 78, 0.2);
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      @media (max-width: 480px) {
+        .row {
+          grid-template-columns: 1fr;
+        }
+      }
+      .error {
+        color: #b3261e;
+        font-size: 0.85rem;
+        margin-top: 4px;
+        min-height: 1em;
+      }
+      .check {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        font-weight: 500;
+        font-size: 0.95rem;
+      }
+      .check input {
+        width: auto;
+      }
+      .estimate {
+        background: var(--mist);
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin: 6px 0 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .estimate strong {
+        font-size: 1.5rem;
+        color: var(--green-dark);
+      }
+      .success {
+        background: var(--mist);
+        border-left: 5px solid var(--green);
+        padding: 18px;
+        border-radius: 12px;
+        margin-top: 14px;
+      }
+      .success[hidden] {
+        display: none;
+      }
+      form .btn {
+        width: 100%;
+      }
+
+      /* packages */
+      .packages {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+        margin-top: 36px;
+      }
+      @media (max-width: 860px) {
+        .packages {
+          grid-template-columns: 1fr;
+        }
+      }
+      .pkg {
+        border: 1.5px solid var(--line);
+        border-radius: 18px;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+      }
+      .pkg.best {
+        border-color: var(--green);
+        border-width: 2.5px;
+      }
+      .pkg .price {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: var(--navy);
+        margin: 8px 0;
+      }
+      .pkg .price small {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--muted);
+      }
+      .pkg ul {
+        padding-left: 0;
+        list-style: none;
+        margin: 14px 0 22px;
+        flex: 1;
+      }
+      .pkg li {
+        padding: 6px 0 6px 26px;
+        position: relative;
+      }
+      .pkg li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--green);
+        font-weight: 800;
+      }
+      .tag {
+        align-self: flex-start;
+        background: var(--green);
+        color: var(--white);
+        font-size: 0.8rem;
+        font-weight: 700;
+        padding: 3px 12px;
+        border-radius: 999px;
+      }
+      .note {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      /* steps */
+      .alt {
+        background: var(--navy);
+        color: var(--white);
+      }
+      .alt h2 {
+        color: var(--white);
+      }
+      .alt .lead {
+        color: #c5d2e6;
+      }
+      .steps {
+        list-style: none;
+        padding: 0;
+        margin-top: 36px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 22px;
+        counter-reset: s;
+      }
+      @media (max-width: 860px) {
+        .steps {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 480px) {
+        .steps {
+          grid-template-columns: 1fr;
+        }
+      }
+      .steps li {
+        counter-increment: s;
+        border-top: 3px solid var(--green);
+        padding-top: 16px;
+      }
+      .steps li::before {
+        content: counter(s);
+        display: block;
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: var(--green);
+      }
+      .steps h3 {
+        color: var(--white);
+        margin-bottom: 6px;
+      }
+      .steps p {
+        color: #c5d2e6;
+      }
+
+      /* faq */
+      details {
+        border-bottom: 1px solid var(--line);
+        padding: 18px 0;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: 700;
+        color: var(--navy);
+        font-size: 1.08rem;
+      }
+      details p {
+        margin-top: 10px;
+        color: var(--muted);
+        max-width: 70ch;
+      }
+
+      footer {
+        background: var(--mist);
+        padding: 36px 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      footer .wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: space-between;
+        align-items: center;
+      }
+      footer img {
+        height: 48px;
+        width: auto;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .btn {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap nav">
+        <a href="#top" aria-label="Land & Go home"
+          ><img src="logo.jpeg" alt="Land & Go logo"
+        /></a>
+        <nav aria-label="Main">
+          <ul>
+            <li><a href="#packages">Packages</a></li>
+            <li><a href="#how">How it works</a></li>
+            <li><a href="#faq">Questions</a></li>
+            <li><a href="#book">Book now</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- HERO + FORMS -->
+      <section class="hero" id="book">
+        <div class="wrap">
+          <div>
+            <h1>Land tired. Leave with someone waiting for you.</h1>
+            <p class="lead">
+              A real person meets you at arrivals, helps with your bags, and
+              takes you straight to your accommodation. Fixed price, booked
+              before you fly.
+            </p>
+            <a class="btn ghost" href="#packages">See packages</a>
+            <div class="trust">
+              <span>Fixed price</span>
+              <span>Flight tracking</span>
+              <span>Driver details sent in advance</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="tabs" role="tablist">
+              <button
+                role="tab"
+                id="tab-book"
+                aria-selected="true"
+                aria-controls="bookForm"
+              >
+                Book a pickup
+              </button>
+              <button
+                role="tab"
+                id="tab-consult"
+                aria-selected="false"
+                aria-controls="consultForm"
+              >
+                Free consultation
+              </button>
+            </div>
+
+            <!-- BOOKING FORM -->
+            <form
+              id="bookForm"
+              role="tabpanel"
+              aria-labelledby="tab-book"
+              novalidate
+            >
+              <div class="field">
+                <label for="b-name">Full name</label>
+                <input id="b-name" name="name" autocomplete="name" required />
+                <div class="error"></div>
+              </div>
+              <div class="row">
+                <div class="field">
+                  <label for="b-email">Email</label>
+                  <input
+                    id="b-email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    required
+                  />
+                  <div class="error"></div>
+                </div>
+                <div class="field">
+                  <label for="b-phone">Phone / WhatsApp</label>
+                  <input
+                    id="b-phone"
+                    name="phone"
+                    type="tel"
+                    autocomplete="tel"
+                    required
+                  />
+                  <div class="error"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="field">
+                  <label for="b-flight">Flight number</label>
+                  <input
+                    id="b-flight"
+                    name="flight"
+                    placeholder="e.g. FR1234"
+                    required
+                  />
+                  <div class="error"></div>
+                </div>
+                <div class="field">
+                  <label for="b-date">Arrival date and time</label>
+                  <input
+                    id="b-date"
+                    name="arrival"
+                    type="datetime-local"
+                    required
+                  />
+                  <div class="error"></div>
+                </div>
+              </div>
+              <div class="field">
+                <label for="b-address">Accommodation address</label>
+                <input
+                  id="b-address"
+                  name="address"
+                  autocomplete="street-address"
+                  required
+                />
+                <div class="error"></div>
+              </div>
+              <div class="row">
+                <div class="field">
+                  <label for="b-package">Package</label>
+                  <select id="b-package" name="package">
+                    <option value="35">Basic (transfer only)</option>
+                    <option value="50" selected>
+                      Plus (transfer, SIM, welcome kit)
+                    </option>
+                    <option value="90">Full Settle-In (everything)</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="b-pax">Passengers</label>
+                  <select id="b-pax" name="passengers">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label class="check"
+                  ><input type="checkbox" id="b-shared" /> I am happy to share
+                  the ride (30% off)</label
+                >
+              </div>
+              <div class="estimate" aria-live="polite">
+                <span>Estimated price</span><strong id="price">€50</strong>
+              </div>
+              <button class="btn" type="submit">Request booking</button>
+              <div class="success" id="bookOk" hidden role="status"></div>
+            </form>
+
+            <!-- CONSULTATION FORM -->
+            <form
+              id="consultForm"
+              role="tabpanel"
+              aria-labelledby="tab-consult"
+              hidden
+              novalidate
+            >
+              <div class="field">
+                <label for="c-name">Full name</label>
+                <input id="c-name" name="name" autocomplete="name" required />
+                <div class="error"></div>
+              </div>
+              <div class="row">
+                <div class="field">
+                  <label for="c-email">Email</label>
+                  <input
+                    id="c-email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    required
+                  />
+                  <div class="error"></div>
+                </div>
+                <div class="field">
+                  <label for="c-country">Home country</label>
+                  <input id="c-country" name="country" required />
+                  <div class="error"></div>
+                </div>
+              </div>
+              <div class="field">
+                <label for="c-uni">University and city</label>
+                <input id="c-uni" name="university" required />
+                <div class="error"></div>
+              </div>
+              <div class="field">
+                <label for="c-topic">What do you need help with?</label>
+                <select id="c-topic" name="topic">
+                  <option>Airport pickup</option>
+                  <option>Finding accommodation</option>
+                  <option>SIM card, bank, or transport card</option>
+                  <option>First-week settling in</option>
+                  <option>Something else</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="c-msg">Your question</label>
+                <textarea id="c-msg" name="message" rows="3"></textarea>
+              </div>
+              <button class="btn" type="submit">Book free consultation</button>
+              <div class="success" id="consultOk" hidden role="status"></div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- PACKAGES -->
+      <section id="packages">
+        <div class="wrap">
+          <h2>Pick the level of help you want</h2>
+          <p class="lead">
+            Every package includes flight tracking, so we adjust if your plane
+            is late.
+          </p>
+          <div class="packages">
+            <article class="pkg">
+              <h3>Basic</h3>
+              <div class="price">€35 <small>per ride</small></div>
+              <ul>
+                <li>Meet and greet at arrivals</li>
+                <li>Private transfer to your door</li>
+                <li>Help with luggage</li>
+              </ul>
+              <a class="btn ghost" href="#book" data-pick="35">Choose Basic</a>
+            </article>
+            <article class="pkg best">
+              <span class="tag">Most popular</span>
+              <h3>Plus</h3>
+              <div class="price">€50 <small>per ride</small></div>
+              <ul>
+                <li>Everything in Basic</li>
+                <li>Local SIM card</li>
+                <li>Transit card and welcome kit</li>
+              </ul>
+              <a class="btn" href="#book" data-pick="50">Choose Plus</a>
+            </article>
+            <article class="pkg">
+              <h3>Full Settle-In</h3>
+              <div class="price">€90 <small>per student</small></div>
+              <ul>
+                <li>Everything in Plus</li>
+                <li>Check-in and key collection help</li>
+                <li>Grocery stop and campus tour</li>
+                <li>Support for your first week</li>
+              </ul>
+              <a class="btn ghost" href="#book" data-pick="90">Choose Full</a>
+            </article>
+          </div>
+          <p class="note">
+            Prices are examples. Extra passengers add €10 each. Shared rides get
+            30% off.
+          </p>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section class="alt" id="how">
+        <div class="wrap">
+          <h2>From the gate to your front door</h2>
+          <p class="lead">You do the booking once. We handle the rest.</p>
+          <ol class="steps">
+            <li>
+              <h3>Book online</h3>
+              <p>Send your flight and address. It takes two minutes.</p>
+            </li>
+            <li>
+              <h3>Get your driver's details</h3>
+              <p>
+                You receive a name, photo, and car details on WhatsApp before
+                you fly.
+              </p>
+            </li>
+            <li>
+              <h3>Meet at arrivals</h3>
+              <p>
+                Your driver tracks your flight and waits with a sign, even if
+                you are delayed.
+              </p>
+            </li>
+            <li>
+              <h3>Arrive home</h3>
+              <p>
+                We take you to your accommodation and make sure you are in
+                safely.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <div class="wrap">
+          <h2>Questions students ask</h2>
+          <div style="margin-top: 24px">
+            <details>
+              <summary>What if my flight is delayed or cancelled?</summary>
+              <p>
+                We track your flight in real time and adjust the pickup at no
+                extra cost. If you rebook, message us and we will move your
+                ride.
+              </p>
+            </details>
+            <details>
+              <summary>How do I know the driver is safe?</summary>
+              <p>
+                All drivers are vetted. Before you travel, you and your family
+                receive the driver's name, photo, and car plate number.
+              </p>
+            </details>
+            <details>
+              <summary>Can my parents pay or book for me?</summary>
+              <p>
+                Yes. Anyone can book on your behalf. Just use your flight and
+                address details.
+              </p>
+            </details>
+            <details>
+              <summary>What does the consultation cover?</summary>
+              <p>
+                A free chat about your arrival plan: the best route, what to
+                carry, how to get a SIM and transit card, and what to do in your
+                first days.
+              </p>
+            </details>
+            <details>
+              <summary>Can I cancel?</summary>
+              <p>
+                Cancel free of charge up to 48 hours before your arrival. Edit
+                this rule to match your own policy.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <img src="logo.jpeg" alt="Land & Go" />
+        <div>
+          <div>
+            hello@landandgo.example &nbsp;|&nbsp; WhatsApp: +000 000 0000
+          </div>
+          <div>
+            &copy; <span id="year"></span> Land & Go. Your journey starts with
+            us.
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // ---------- Tabs ----------
+      const tabBook = document.getElementById("tab-book");
+      const tabConsult = document.getElementById("tab-consult");
+      const bookForm = document.getElementById("bookForm");
+      const consultForm = document.getElementById("consultForm");
+
+      function showTab(isBook) {
+        tabBook.setAttribute("aria-selected", isBook);
+        tabConsult.setAttribute("aria-selected", !isBook);
+        bookForm.hidden = !isBook;
+        consultForm.hidden = isBook;
+      }
+      tabBook.addEventListener("click", () => showTab(true));
+      tabConsult.addEventListener("click", () => showTab(false));
+
+      // ---------- Price estimate ----------
+      const pkg = document.getElementById("b-package");
+      const pax = document.getElementById("b-pax");
+      const shared = document.getElementById("b-shared");
+      const priceEl = document.getElementById("price");
+
+      function updatePrice() {
+        let total = Number(pkg.value) + (Number(pax.value) - 1) * 10;
+        if (shared.checked) total *= 0.7;
+        priceEl.textContent = "€" + Math.round(total);
+      }
+      [pkg, pax, shared].forEach((el) =>
+        el.addEventListener("change", updatePrice),
+      );
+      updatePrice();
+
+      // Package buttons pre-select the package in the form
+      document.querySelectorAll("[data-pick]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          pkg.value = btn.dataset.pick;
+          updatePrice();
+          showTab(true);
+        });
+      });
+
+      // ---------- Validation ----------
+      function validate(form) {
+        let ok = true;
+        form.querySelectorAll("[required]").forEach((input) => {
+          const err = input.parentElement.querySelector(".error");
+          let msg = "";
+          if (!input.value.trim()) msg = "Please fill in this field.";
+          else if (
+            input.type === "email" &&
+            !/^\S+@\S+\.\S+$/.test(input.value)
+          )
+            msg = "Enter a valid email address.";
+          if (err) err.textContent = msg;
+          if (msg) ok = false;
+        });
+        return ok;
+      }
+
+      // ---------- Submit ----------
+      // No backend is connected yet. To receive real requests, replace the
+      // console.log with a fetch() to your server, or use a service such as
+      // Formspree, Google Forms, or EmailJS.
+      function handleSubmit(form, okBox, message) {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          if (!validate(form)) return;
+          const data = Object.fromEntries(new FormData(form));
+          console.log("Form data:", data);
+          okBox.textContent = message(data);
+          okBox.hidden = false;
+          form.reset();
+          updatePrice();
+        });
+      }
+
+      handleSubmit(
+        bookForm,
+        document.getElementById("bookOk"),
+        (d) =>
+          `Thank you, ${d.name}. We received your request for flight ${d.flight}. We will confirm by email and WhatsApp shortly.`,
+      );
+      handleSubmit(
+        consultForm,
+        document.getElementById("consultOk"),
+        (d) =>
+          `Thank you, ${d.name}. We will contact you at ${d.email} to arrange your free consultation.`,
+      );
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
